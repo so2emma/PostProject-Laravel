@@ -23,19 +23,23 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerPolicies();
-        Gate::define('update-post', function($user, $post){
-            return $user->id == $post->user_id;
-        });
-        Gate::define('delete--post', function($user, $post){
-            return $user->id == $post->user_id;
-        });
+        // $this->registerPolicies();
+        // Gate::define('update-post', function($user, $post){
+        //     return $user->id == $post->user_id;
+        // });
+        // Gate::define('delete--post', function($user, $post){
+        //     return $user->id == $post->user_id;
+        // });
 
-        Gate::before(function ($user, $ability) {
-            if($user->is_admin && in_array($ability, ['update-post', 'delete-post'])){
-                return true;
-            }
-        });
+        // Gate::define('posts.update', 'App\Policies\BlogPostPolicy@update');
+        // Gate::define('posts.delete', 'App\Policies\BlogPostPolicy@delete');
+
+        Gate::resource('posts', 'App\Policies\BlogPostPolicy');
+        // Gate::before(function ($user, $ability) {
+        //     if($user->is_admin && in_array($ability, ['posts.update'])){
+        //         return true;
+        //     }
+        // });
         // Gate::after(function ($user, $ability, $reault) {
         //     if($user->is_admin ){
         //         return true;
