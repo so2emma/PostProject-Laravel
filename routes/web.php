@@ -29,31 +29,33 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'home'])->name('home.index');
 Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact');
+Route::get('/secret', [HomeController::class, 'secret'])->name('home.secret')
+->middleware('can:home.secret');
 Route::resource('posts', PostsController::class);
 
 Auth::routes();
 
 
-Route::get('/single', AboutController::class);
+// Route::get('/single', AboutController::class);
 
-$posts = [
-    1 => [
-        'title' => 'Intro to Laravel',
-        'content' => 'This is a short intro to Laravel',
-        'is_new'=> true,
-        'has_comments'=> true
-    ],
-    2 => [
-        'title' => 'Intro to PHP',
-        'content' => 'This is a short intro to PHP',
-        'is_new' => false
-    ],
-    3 => [
-        'title' => 'Intro to Golang',
-        'content' => 'This is a short intro to PHP',
-        'is_new' => false
-    ]
-];
+// $posts = [
+//     1 => [
+//         'title' => 'Intro to Laravel',
+//         'content' => 'This is a short intro to Laravel',
+//         'is_new'=> true,
+//         'has_comments'=> true
+//     ],
+//     2 => [
+//         'title' => 'Intro to PHP',
+//         'content' => 'This is a short intro to PHP',
+//         'is_new' => false
+//     ],
+//     3 => [
+//         'title' => 'Intro to Golang',
+//         'content' => 'This is a short intro to PHP',
+//         'is_new' => false
+//     ]
+// ];
 
 // Route::get('/posts', function (Request $request) use($posts) {
 
@@ -78,40 +80,40 @@ $posts = [
 // // ])
 // ->name('posts.show');
 
-Route::get('/recent-posts/{days_age?}', function ($daysAgo = 20) {
-    return ' Posts from'.$daysAgo. 'Ago';
-})->name('posts.recent.index')->middleware('auth');
+// Route::get('/recent-posts/{days_age?}', function ($daysAgo = 20) {
+//     return ' Posts from'.$daysAgo. 'Ago';
+// })->name('posts.recent.index')->middleware('auth');
 
 
 
 
 
 
-Route::prefix('/fun')->name('fun.')->group(function() use($posts){
+// Route::prefix('/fun')->name('fun.')->group(function() use($posts){
 
-    Route::get('/responses', function() use($posts) {
-        return response($posts, 201)
-        ->header('content-Type', 'application/json')
-        ->cookie('MY_COOKIE', 'Oso Emmauel', 3600);
-    })->name('responses');
+//     Route::get('/responses', function() use($posts) {
+//         return response($posts, 201)
+//         ->header('content-Type', 'application/json')
+//         ->cookie('MY_COOKIE', 'Oso Emmauel', 3600);
+//     })->name('responses');
 
-    Route::get('/redirect', function() {
-        return redirect('/contact');
-    })->name('redirect');
+//     Route::get('/redirect', function() {
+//         return redirect('/contact');
+//     })->name('redirect');
 
-    Route::get('/named-route', function() {
-        return redirect()->route('posts.show', ['id' => '1']);
-    })->name('named-route');
+//     Route::get('/named-route', function() {
+//         return redirect()->route('posts.show', ['id' => '1']);
+//     })->name('named-route');
 
-    Route::get('/away', function() {
-        return redirect()->away('https://google.com');
-    })->name('away');
+//     Route::get('/away', function() {
+//         return redirect()->away('https://google.com');
+//     })->name('away');
 
-    Route::get('/json', function() use($posts) {
-        return response()->json($posts);
-    })->name('json');
+//     Route::get('/json', function() use($posts) {
+//         return response()->json($posts);
+//     })->name('json');
 
-    Route::get('/download', function() {
-        return redirect()->downlaod(public_path('daniel.jpg'), 'face.jpg');
-    })->name('download');
-});
+//     Route::get('/download', function() {
+//         return redirect()->downlaod(public_path('daniel.jpg'), 'face.jpg');
+//     })->name('download');
+// });
