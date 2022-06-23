@@ -100,7 +100,7 @@ class PostsController extends Controller
         //     abort(403, "You cannot edit this Blog Post");
         // }
 
-        $this->authorize('posts.update', $post);
+        $this->authorize($post);
 
         return view('posts.edit', ['post' => $post ]);
     }
@@ -120,7 +120,7 @@ class PostsController extends Controller
         // {
         //     abort(403, "You cannot edit this Blog Post");
         // }
-        $this->authorize('posts.update', $post);
+        $this->authorize($post);
         $validated = $request->validated();
         $post->fill($validated);
         $post->save();
@@ -140,7 +140,7 @@ class PostsController extends Controller
     {
         $post = BlogPost::findOrFail($id);
 
-        $this->authorize('posts.delete', $post);
+        $this->authorize($post);
         $post->delete();
 
         session()->flash('status', 'Blog post was Deleted!');
