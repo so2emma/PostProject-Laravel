@@ -22,7 +22,7 @@ class HomeTest extends TestCase
     }
     public function testContactPageIsWorkingCorrectly(){
         $response = $this->get('/contact');
-        $response->assertSeeText('Welcome to my Blogging App - CONTACT PAGE');
+        $response->assertSeeText('Hello this is Contact!');
 
         $response->assertStatus(200);
 
