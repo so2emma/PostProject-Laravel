@@ -19,6 +19,7 @@ class CommentFactory extends Factory
     {
         return [
             'content'=> $this->faker->sentence(10),
+            'created_at' => $this->faker->dateTimeBetween('-3 months')
             // 'blog_post_id'=>13,
 
         ];
