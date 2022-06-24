@@ -54,6 +54,7 @@ class PostsController extends Controller
         //
         // this is used to validate inputs
         $validated = $request->validated();
+        $validated['user_id'] = $request->user()->id;
 
         $post = BlogPost::create($validated);
         // // this is used to strore in the database
@@ -82,7 +83,8 @@ class PostsController extends Controller
     {
         // abort_if(isset($posts[$id]), 404);
 
-        return view('posts.show', ['post'=> BlogPost::with('comments')->findOrFail($id)]);
+        return view('posts.show',
+        ['post'=> BlogPost::with('comments')->findOrFail($id)]);
     }
 
     /**
