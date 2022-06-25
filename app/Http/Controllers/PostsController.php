@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Gate;
-use App\Http\Requests\StorePost;
+use App\Models\User;
 use App\Models\BlogPost;
 use Illuminate\Http\Request;
+use App\Http\Requests\StorePost;
+use Illuminate\Support\Facades\Gate;
 // use Illuminate\Support\facades\DB;
 
 class PostsController extends Controller
@@ -32,6 +33,7 @@ class PostsController extends Controller
             [
                 'posts' => BlogPost::latest()->withCount('comments')->get(),
                 'mostCommented' => BlogPost::mostCommented()->take(5)->get(),
+                'mostActive' => User::WithMostBlogPosts()->take(5)->get(),
             ]);
     }
 
