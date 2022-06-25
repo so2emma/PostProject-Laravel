@@ -28,6 +28,10 @@ class BlogPost extends Model
     {
         return $query->orderBy(static::CREATED_AT, 'desc');
     }
+    public function ScopeMostCommented(Builder $query)
+    {
+        return $query->withCount('comments')->orderBy('comments_count', 'desc');
+    }
 
     public static function boot()
     {
