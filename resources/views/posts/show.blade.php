@@ -8,8 +8,10 @@
 <p>{{ $post->content }}</p>
 <p>Added {{ $post->created_at->diffForHumans() }}</p>
 
-@if(now()->diffInMinutes($post->created_at) < 5)
-    <div class="alert alert-info">New!</div>
+@if(now()->diffInMinutes($post->created_at) < 20)
+    <x-badge type="success" >
+        New Post
+    </x-badge>
 @endif
 
 <h4>Comments</h4>
