@@ -10,7 +10,7 @@
 @can('home.secret')
 <h1>Welcome to my Blogging App - CONTACT PAGE</h1>
 <p>
-    <a href="{{ route('secret') }}">Special Contact Details</a>
+    <a href="{{ route('home.secret') }}">Special Contact Details</a>
 </p>
 @endcan
 @endsection

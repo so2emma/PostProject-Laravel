@@ -12,17 +12,16 @@
                     @if ($post->trashed())
                         <del>
                     @endif
-                    <a class="{{ $post->trashed() ? 'text-muted' : ''}}"
-                     href="{{ route('posts.show', ['post' => $post->id]) }}"> {{ $post->title }}</a>
+                    <a class="{{ $post->trashed() ? 'text-muted' : '' }}"
+                        href="{{ route('posts.show', ['post' => $post->id]) }}"> {{ $post->title }}</a>
                     @if ($post->trashed())
                         </del>
                     @endif
 
                 </h3>
-                <p class="text-muted">
-                    Added {{ $post->created_at->diffForHumans() }}
-                    by {{ $post->user->name }}
-                </p>
+                @component('components.updated', ['date'=>$post->created_at, 'name'=>$post->user->name])
+                @endcomponent
+
                 @if ($post->comments_count)
                     <p>{{ $post->comments_count }} comments</p>
                 @else
@@ -33,13 +32,13 @@
                         <a href="{{ route('posts.edit', ['post' => $post->id]) }}" class="btn btn-primary">Edit</a>
                     @endcan
                     @if (!$post->trashed())
-                    @can('delete', $post)
-                        <form class="d-inline" action="{{ route('posts.destroy', ['post' => $post->id]) }}" method="post">
-                            @csrf
-                            @method('DELETE')
-                            <input type="submit" value="Delete!" class="btn btn-primary">
-                        </form>
-                    @endcan
+                        @can('delete', $post)
+                            <form class="d-inline" action="{{ route('posts.destroy', ['post' => $post->id]) }}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <input type="submit" value="Delete!" class="btn btn-primary">
+                            </form>
+                        @endcan
                     @endif
                 </div>
 
