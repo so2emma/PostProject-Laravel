@@ -6,11 +6,18 @@
 @section('content')
     <div class="row">
         <div class="col-8">
-
             @forelse ($posts as $key => $post)
                 {{-- @include('posts.partials.post') --}}
                 <h3>
-                    <a href="{{ route('posts.show', ['post' => $post->id]) }}"> {{ $post->title }}</a>
+                    @if ($post->trashed())
+                        <del>
+                    @endif
+                    <a class="{{ $post->trashed() ? 'text-muted' : ''}}"
+                     href="{{ route('posts.show', ['post' => $post->id]) }}"> {{ $post->title }}</a>
+                    @if ($post->trashed())
+                        </del>
+                    @endif
+
                 </h3>
                 <p class="text-muted">
                     Added {{ $post->created_at->diffForHumans() }}
@@ -25,6 +32,7 @@
                     @can('update', $post)
                         <a href="{{ route('posts.edit', ['post' => $post->id]) }}" class="btn btn-primary">Edit</a>
                     @endcan
+                    @if (!$post->trashed())
                     @can('delete', $post)
                         <form class="d-inline" action="{{ route('posts.destroy', ['post' => $post->id]) }}" method="post">
                             @csrf
@@ -32,6 +40,7 @@
                             <input type="submit" value="Delete!" class="btn btn-primary">
                         </form>
                     @endcan
+                    @endif
                 </div>
 
             @empty
@@ -68,7 +77,7 @@
                         <ul class="list-group list-group-flush">
                             @foreach ($mostActive as $user)
                                 <li class="list-group-item">
-                                        {{ $user->name }}
+                                    {{ $user->name }}
                                 </li>
                             @endforeach
 
@@ -85,7 +94,7 @@
                         <ul class="list-group list-group-flush">
                             @foreach ($mostActiveLastMonth as $user)
                                 <li class="list-group-item">
-                                        {{ $user->name }}
+                                    {{ $user->name }}
                                 </li>
                             @endforeach
 
