@@ -6,7 +6,8 @@ use App\Models\BlogPost;
 use Illuminate\Http\Request;
 use App\Http\Requests\StorePost;
 use Illuminate\Support\Facades\Gate;
-// use Illuminate\Support\facades\DB;
+use Illuminate\Support\Facades\Cache;
+
 
 class PostsController extends Controller
 {
@@ -21,20 +22,22 @@ class PostsController extends Controller
      */
     public function index()
     {
-        // DB::connection()->enableQueryLog();
-        // $posts = BlogPost::all();
-        // foreach ($posts as $post) {
-        //     foreach($post->comments as $comment){
-        //         echo $comment->content;
-        //     }
-        // }
+        $mostCommented = Cache::remember('mostCommented', 60, function () {
+            return BlogPost::mostCommented()->take(5)->get();
+        });
+        $mostActive = Cache::remember('mostActive', 60, function () {
+            return User::WithMostBlogPosts()->take(5)->get();
+        });
+        $mostActiveLastMonth = Cache::remember('mostActiveLastMonth', 60, function () {
+            return User::WithMostBlogPostsLastMonth()->take(5)->get();
+        });
         return view(
             'posts.index',
             [
                 'posts' => BlogPost::latest()->withCount('comments')->with('user')->get(),
-                'mostCommented' => BlogPost::mostCommented()->take(5)->get(),
-                'mostActive' => User::WithMostBlogPosts()->take(5)->get(),
-                'mostActiveLastMonth' => User::WithMostBlogPostsLastMonth()->take(5)->get(),
+                'mostCommented' => $mostCommented,
+                'mostActive' => $mostActive,
+                'mostActiveLastMonth' =>  $mostActiveLastMonth ,
             ]);
     }
 
