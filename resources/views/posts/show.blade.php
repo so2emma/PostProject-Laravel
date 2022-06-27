@@ -12,6 +12,9 @@
 @component('components.updated', ['date'=>$post->updated_at])
 Updated
 @endcomponent
+<p>
+    Currently read by {{ $counter }} people
+</p>
 
 @if(now()->diffInMinutes($post->created_at) < 5)
     <x-badge type="success" >

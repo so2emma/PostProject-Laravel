@@ -6,7 +6,7 @@
         </h6>
     </div>
     <ul class="list-group list-group-flush">
-        @if(is_a($items, 'Illumintae\Support\Collections'))
+        @if(is_a($items, 'Illuminate\Support\Collection'))
             @foreach ($items as $item)
                 <li class="list-group-item">
                     {{ $item }}
