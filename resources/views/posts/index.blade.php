@@ -19,8 +19,11 @@
                     @endif
 
                 </h3>
-                {{-- @component('components.updated', ['date' => $post->created_at, 'name' => $post->user->name])
-                @endcomponent --}}
+                @component('components.updated', ['date' => $post->created_at, 'name' => $post->user->name])
+                @endcomponent
+
+                @component('components.tags', ['tags' => $post->tags])
+                @endcomponent
 
                 @if ($post->comments_count)
                     <p>{{ $post->comments_count }} comments</p>
@@ -29,9 +32,9 @@
                 @endif
                 <div class="mb-3">
                     @auth
-                    @can('update', $post)
-                        <a href="{{ route('posts.edit', ['post' => $post->id]) }}" class="btn btn-primary">Edit</a>
-                    @endcan
+                        @can('update', $post)
+                            <a href="{{ route('posts.edit', ['post' => $post->id]) }}" class="btn btn-primary">Edit</a>
+                        @endcan
                     @endauth
 
                     @auth
