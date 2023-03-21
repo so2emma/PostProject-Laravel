@@ -29,6 +29,11 @@ class BlogPost extends Model
         return $this->belongsToMany("App\Models\Tag")->withTimestamps();
     }
 
+    public function image()
+    {
+        return $this->hasOne(Image::class);
+    }
+
     public function scopeLatest(Builder $query)
     {
         return $query->orderBy(static::CREATED_AT, 'desc');
@@ -36,6 +41,14 @@ class BlogPost extends Model
     public function ScopeMostCommented(Builder $query)
     {
         return $query->withCount('comments')->orderBy('comments_count', 'desc');
+    }
+
+    public function scopeLatestWithRelations(Builder $query)
+    {
+        return $query->latest()
+            ->withCount('comments')
+            ->with('user')
+            ->with('tags');
     }
 
     public static function boot()

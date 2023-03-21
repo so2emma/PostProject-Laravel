@@ -5,9 +5,11 @@ use App\Models\User;
 use App\Models\BlogPost;
 use Illuminate\Http\Request;
 use App\Http\Requests\StorePost;
+use App\Models\Image;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Cache;
-
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\File;
 
 class PostsController extends Controller
 {
@@ -25,8 +27,7 @@ class PostsController extends Controller
         return view(
             'posts.index',
             [
-                'posts' => BlogPost::latest()->withCount('comments')
-                ->with('user')->with('tags')->get(),
+                'posts' => BlogPost::latestWithRelations()->get(),
             ]);
     }
 
@@ -55,6 +56,36 @@ class PostsController extends Controller
         $validated['user_id'] = $request->user()->id;
 
         $post = BlogPost::create($validated);
+
+        if($request->hasFile("thumbnail"))
+        {
+            $path = $request->file("thumbnail")->store("thumbnails");
+            $post->image()->save(
+                Image::create([
+                    "path" => $path
+                ])
+            );
+        }
+
+        //to check if a file has been passed
+        // $hasFile = $request->hasFile("thumbnail");
+
+        // if ($hasFile) {
+        //     $file = $request->file("thumbnail");
+        //     dump($file);
+        //     dump($file->getClientMimeType());
+        //     dump($file->getClientOriginalExtension());
+
+        //     dump($file->store("thumbnails"));
+        //     dump(Storage::disk("public")->put("thumbnails", $file));
+
+        //     $name1 = ($file->storeAs("thumbnails", $post->id.".". $file->guessExtension()));
+        //     $name2 = (Storage::disk("local")->putFileAs("thumbnails", $file,  $post->id.".". $file->guessExtension()));
+
+        //     dump(Storage::url($name1));
+        //     dump(Storage::disk("local")->url($name2));
+        // }
+
         // // this is used to strore in the database
         // $post = new BlogPost();
         // $post->title = $validated['title'];
