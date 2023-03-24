@@ -26,7 +26,8 @@ class StorePost extends FormRequest
         // this are the rules to validate the inputs
         return [
             'title' => 'bail|required|min:5|max:100',
-            'content' => 'required|min:10'
+            'content' => 'required|min:10',
+            "thumbnail" => "image|mimes:png,jpg,jpeg,gif,svg"
         ];
     }
 }
