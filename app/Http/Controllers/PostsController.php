@@ -60,11 +60,9 @@ class PostsController extends Controller
         if($request->hasFile("thumbnail"))
         {
             $path = $request->file("thumbnail")->store("thumbnails");
-            $post->image()->save(
-                Image::create([
-                    "path" => $path
-                ])
-            );
+            $post->image()->create([
+                "path" => $path
+            ]);
         }
 
         //to check if a file has been passed
@@ -208,11 +206,9 @@ class PostsController extends Controller
                 $post->image->path = $path;
                 $post->image->save();
             }else {
-                $post->image()->save(
-                    Image::create([
-                        "path" => $path
-                    ])
-                );
+                $post->image()->create([
+                    "path" => $path
+                ]);
             }
         }
 

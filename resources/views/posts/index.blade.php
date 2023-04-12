@@ -22,11 +22,11 @@
                 @component('components.updated', ['date' => $post->created_at, 'name' => $post->user->name, "userId" => $post->user->id])
                 @endcomponent
 
-                {{-- @component('components.tags', ['tags' => $post->tags])
-                @endcomponent --}}
-                <x-tags :tags="$post->tags" >
+                @component('components.tags', ['tags' => $post->tags])
+                @endcomponent
+                {{-- <x-tags :tags="$post->tags" >
 
-                </x-tags>
+                </x-tags> --}}
 
                 @if ($post->comments_count)
                     <p>{{ $post->comments_count }} comments</p>

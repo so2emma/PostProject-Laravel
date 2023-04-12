@@ -34,9 +34,12 @@ class PostTest extends TestCase
        ]);
     }
     public function testSee1BlogPostWithComment(){
+        $user = $this->user();
         $post = $this->createDummyBlogPost();
         $comment = Comment::factory()->count(4)->create([
-            'blog_post_id' => $post->id
+            'commentable_id' => $post->id,
+            'commentable_type' => BlogPost::class,
+            "user_id" => $user->id
         ]);
         // factory(Comment::class, 4)->create([
         //     'blog_post_id' => $post->id

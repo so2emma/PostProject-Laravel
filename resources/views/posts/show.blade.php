@@ -40,18 +40,13 @@
 
             <h4>Comments</h4>
 
-            @include("comments.partials.form")
+            @component("components.comment-form", ["route" =>route("posts.comments.store", ["post" => $post->id]) ])
+
+            @endcomponent
             <x-errors></x-errors>
 
-            @forelse ($post->comments as $comment)
-                <p>
-                    {{ $comment->content }},
-                </p>
-                @component('components.updated', ['date' => $comment->created_at, "name" => $comment->user->name])
-                @endcomponent
-            @empty
-                <p>No comments yet!</p>
-            @endforelse
+            @component("components.comment-list", ["comments" => $post->comments])
+            @endcomponent
         </div>
 
         <div class="col-4">

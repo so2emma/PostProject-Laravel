@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Cache;
 
 class Comment extends Model
 {
@@ -18,9 +19,14 @@ class Comment extends Model
         "user_id"
     ];
 
-    public function blogPost()
+    // public function blogPost()
+    // {
+    //     return $this->belongsTo('App\Models\BlogPost');
+    // }
+
+    public function commentable()
     {
-        return $this->belongsTo('App\Models\BlogPost');
+        return $this->morphTo();
     }
 
     public function User()
@@ -37,6 +43,14 @@ class Comment extends Model
     {
         parent::boot();
 
+        static::creating(function(Comment $comment) {
+            // dump($comment);
+            // dd(BlogPost::class);
+            // if($comment->commentable_type === BlogPost::class) {
+            //     Cache::tags(["blog-post"])->forget("blog-post-{$comment->commentable_id}");
+            //     Cache::tags(["blog-post"])->forget("mostCommented");
+            // }
+        });
         // static::addGlobalScope(new LatestScope);
     }
 }

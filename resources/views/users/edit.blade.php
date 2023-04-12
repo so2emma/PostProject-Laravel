@@ -8,8 +8,8 @@
         @method("PUT")
 
         <div class="row">
-            <div class="col-4">
-                <img src="..." class="img-thumbnail avatar" alt="...">
+            <div class="col-4"> 
+                <img src="{{ $user->image ? $user->image->url() : "" }}" class="img-thumbnail avatar" alt="...">
                 <div class="card mt-4">
                     <div class="card-body">
                         <h6>Upload a different photo</h6>
@@ -22,6 +22,7 @@
                     <label for="name">Name</label>
                     <input type="text" value="" class="form-control" name="name">
                 </div>
+                <x-errors></x-errors>
                 <div class="mb-3">
                     <input class="btn btn-primary" type="submit" value="save changes">
                 </div>
