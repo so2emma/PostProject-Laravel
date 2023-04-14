@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\Taggable;
 
 class BlogPost extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Taggable;
 
     protected $fillable = ['title', 'content', 'user_id'];
     use HasFactory;
@@ -23,10 +24,6 @@ class BlogPost extends Model
     public function user()
     {
         return $this->belongsTo("App\Models\User");
-    }
-    public function tags()
-    {
-        return $this->belongsToMany("App\Models\Tag")->withTimestamps();
     }
 
     public function image()
