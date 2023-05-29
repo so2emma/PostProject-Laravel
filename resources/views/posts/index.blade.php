@@ -28,11 +28,14 @@
 
                 </x-tags> --}}
 
-                @if ($post->comments_count)
+                {{-- @if ($post->comments_count)
                     <p>{{ $post->comments_count }} comments</p>
                 @else
                     No comments yet!
-                @endif
+                @endif --}}
+
+                {{ trans_choice("messages.comments", $post->comments_count) }}
+
                 <div class="mb-3">
                     @auth
                         @can('update', $post)

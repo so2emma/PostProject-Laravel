@@ -33,9 +33,11 @@
             @component('components.tags', ['tags' => $post->tags])
             @endcomponent
 
-            <p>
+            {{-- <p>
                 Currently read by {{ $counter }} people
-            </p>
+            </p> --}}
+
+            <p>{{ trans_choice("messages.people.reading", $counter ) }}</p>
 
 
             <h4>Comments</h4>
