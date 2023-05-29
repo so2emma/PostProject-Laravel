@@ -15,24 +15,28 @@
         <h5 class="my-0 mr-md-auto cont-weight-normal">Laravel Blogging App</h5>
 
         <nav class="my-2 my-md-0 mr-md-3">
-            <a href="{{ route('home.index') }}" class="p-2 text-dark">{{ __("Home") }}</a>
-            <a href="{{ route('home.contact') }}" class="p-2 text-dark">{{ __("Contact") }}</a>
-            <a href="{{ route('posts.index') }}" class="p-2 text-dark">{{ __("Blog Post") }}</a>
-            <a href="{{ route('posts.create') }}" class="p-2 text-dark">{{ __("Add") }}</a>
+            <a href="{{ route('home.index') }}" class="p-2 text-dark">{{ __('Home') }}</a>
+            <a href="{{ route('home.contact') }}" class="p-2 text-dark">{{ __('Contact') }}</a>
+            <a href="{{ route('posts.index') }}" class="p-2 text-dark">{{ __('Blog Post') }}</a>
+            <a href="{{ route('posts.create') }}" class="p-2 text-dark">{{ __('Add') }}</a>
 
             @guest()
                 @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="p-2 text-dark">{{ __("Register") }}</a>
+                    <a href="{{ route('register') }}" class="p-2 text-dark">{{ __('Register') }}</a>
                 @endif
-                <a href="{{ route('login') }}" class="p-2 text-dark">{{ __("Login") }}</a>
-
-                @else
+                <a href="{{ route('login') }}" class="p-2 text-dark">{{ __('Login') }}</a>
+            @else
+                <a href="{{ route('users.show', ['user' => Auth::user()->id]) }}" class="p-2 text-dark">
+                    {{ __('Profile') }}
+                </a>
+                <a href="{{ route('users.edit', ['user' => Auth::user()->id]) }}" class="p-2 text-dark">
+                    {{ __('Edit Profile') }}
+                </a>
                 <a class="p-2 text-dark" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();document.getElementById('logout-form').submit();"
-                    >{{ __("Logout") }} ({{ Auth::user()->name }})</a>
+                    onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Logout') }}
+                    ({{ Auth::user()->name }})</a>
 
-                <form id="logout-form" action={{ route('logout') }} method="POST"
-                    style="display: none;">
+                <form id="logout-form" action={{ route('logout') }} method="POST" style="display: none;">
                     @csrf
                 </form>
             @endguest
