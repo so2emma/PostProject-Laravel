@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Events\BlogPostPosted;
 use App\Models\User;
 use App\Models\BlogPost;
 use Illuminate\Http\Request;
@@ -64,6 +66,8 @@ class PostsController extends Controller
                 "path" => $path
             ]);
         }
+
+        event(new BlogPostPosted($post));
 
         //to check if a file has been passed
         // $hasFile = $request->hasFile("thumbnail");
